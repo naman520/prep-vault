@@ -1,0 +1,6 @@
+{
+  "name": "PrepVault - Offline Aptitude & Mock Test App",
+  "description": "An offline-first educational practice and mock test platform inspired by IndiaBIX with quantitative aptitude, logical reasoning, verbal ability, GK, and technical interview questions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

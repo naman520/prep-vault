@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="50%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+  </defs>
+  <!-- Background with rounded rectangle for safe maskable area -->
+  <rect width="512" height="512" rx="128" fill="url(#bg)" />
+  
+  <!-- Outer subtle shield glow -->
+  <path d="M256 80 L384 140 V260 C384 340 320 400 256 432 C192 400 128 340 128 260 V140 Z" 
+        fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="14" stroke-linejoin="round" />
+
+  <!-- Inner shield -->
+  <path d="M256 96 L370 150 V256 C370 330 312 386 256 416 C200 386 142 330 142 256 V150 Z" 
+        fill="rgba(15, 23, 42, 0.45)" stroke="url(#glow)" stroke-width="8" stroke-linejoin="round" />
+
+  <!-- Graduation Cap / Learning Emblem -->
+  <path d="M256 160 L350 208 L256 256 L162 208 Z" fill="#ffffff" />
+  <path d="M200 234 V280 C200 298 225 312 256 312 C287 312 312 298 312 280 V234 L256 262 Z" fill="#e0e7ff" />
+  <path d="M350 208 V280" stroke="#facc15" stroke-width="6" stroke-linecap="round" />
+  <circle cx="350" cy="286" r="6" fill="#facc15" />
+
+  <!-- Checkmark / Test Badge -->
+  <circle cx="256" cy="355" r="28" fill="#10b981" />
+  <path d="M246 355 L253 362 L268 347" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
