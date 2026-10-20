@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AppLayout } from './components/layout/AppLayout';
 import { initializeDatabase } from './db/db';
+import { getOrCreateDaily60Questions } from './services/dailyQuestionService';
 
 import { DashboardPage } from './pages/DashboardPage';
 import { CategoriesPage } from './pages/CategoriesPage';
@@ -15,6 +16,7 @@ import { BookmarksPage } from './pages/BookmarksPage';
 import { SearchPage } from './pages/SearchPage';
 import { QuestionBankPage } from './pages/QuestionBankPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { DailyChallengePage } from './pages/DailyChallengePage';
 
 export default function App() {
   const [dbReady, setDbReady] = useState(false);
@@ -22,7 +24,15 @@ export default function App() {
 
   useEffect(() => {
     initializeDatabase()
-      .then(() => setDbReady(true))
+      .then(async () => {
+        // Automatically ensure today's 60 questions are seeded in the offline bank
+        try {
+          await getOrCreateDaily60Questions();
+        } catch (dailyErr) {
+          console.warn('Daily question pre-generation notice:', dailyErr);
+        }
+        setDbReady(true);
+      })
       .catch((err) => {
         console.error('Database initialization failed:', err);
         setInitError('Failed to initialize local IndexedDB database.');
@@ -72,6 +82,7 @@ export default function App() {
             <Route path="/mock-test/result/:id" element={<MockTestResultPage />} />
             <Route path="/history" element={<MockTestHistoryPage />} />
             <Route path="/bookmarks" element={<BookmarksPage />} />
+            <Route path="/daily-challenge" element={<DailyChallengePage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/question-bank" element={<QuestionBankPage />} />
             <Route path="/settings" element={<SettingsPage />} />

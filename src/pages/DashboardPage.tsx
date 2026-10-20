@@ -12,6 +12,8 @@ import {
   BookmarkCheck,
   AlertCircle,
   BarChart3,
+  Flame,
+  Calendar,
 } from 'lucide-react';
 import { db } from '../db/db';
 import { CATEGORIES } from '../data/categories';
@@ -133,18 +135,18 @@ export const DashboardPage: React.FC = () => {
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
+              onClick={() => navigate('/daily-challenge')}
+              className="flex items-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-600 px-4 py-2.5 text-sm font-bold text-white shadow-md transition active:scale-95"
+            >
+              <Flame className="w-4 h-4 fill-white" />
+              <span>Daily 60 Challenge</span>
+            </button>
+            <button
               onClick={() => navigate('/mock-test')}
               className="flex items-center gap-2 rounded-xl bg-white text-indigo-700 hover:bg-indigo-50 px-4 py-2.5 text-sm font-semibold shadow-md transition active:scale-95"
             >
               <Sparkles className="w-4 h-4 text-indigo-600" />
-              <span>Take a Mock Test</span>
-            </button>
-            <button
-              onClick={handleStartDailyPractice}
-              className="flex items-center gap-2 rounded-xl bg-indigo-600/40 hover:bg-indigo-600/60 border border-white/20 px-4 py-2.5 text-sm font-semibold text-white backdrop-blur-xs transition active:scale-95"
-            >
-              <GraduationCap className="w-4 h-4" />
-              <span>Daily Practice (10 Qs)</span>
+              <span>Custom Mock Test</span>
             </button>
             <Link
               to="/categories"
@@ -159,6 +161,44 @@ export const DashboardPage: React.FC = () => {
         {/* Decorative background shapes */}
         <div className="absolute -right-8 -bottom-12 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />
         <div className="absolute right-32 -top-10 w-48 h-48 rounded-full bg-indigo-400/20 blur-xl pointer-events-none" />
+      </div>
+
+      {/* Daily 60 Challenge Spotlight Card */}
+      <div className="rounded-3xl border border-amber-200 dark:border-amber-900/60 bg-gradient-to-r from-amber-50 via-orange-50 to-rose-50 dark:from-amber-950/20 dark:via-orange-950/20 dark:to-rose-950/20 p-5 sm:p-6 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+        <div className="space-y-1.5 max-w-xl">
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-400 bg-amber-100 dark:bg-amber-950 px-2.5 py-0.5 rounded-full">
+              <Flame className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+              Daily Feature
+            </span>
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              Fresh 60 questions every calendar day
+            </span>
+          </div>
+          <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white">
+            Today's 60 Questions Challenge
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+            Balanced difficulty mix: <strong>20 Easy</strong>, <strong>25 Medium</strong>, and <strong>15 Hard</strong> questions (not all of one level) across Aptitude, Reasoning, Verbal, GK, and CS.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button
+            onClick={() => navigate('/daily-challenge')}
+            className="flex items-center gap-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white px-4 py-2.5 text-xs sm:text-sm font-bold shadow-md transition active:scale-95"
+          >
+            <Flame className="w-4 h-4 fill-white" />
+            <span>Practice 60 Questions</span>
+          </button>
+          <Link
+            to="/mock-test"
+            className="flex items-center gap-1.5 rounded-xl border border-amber-300 dark:border-amber-800 hover:bg-amber-100/60 dark:hover:bg-amber-950/60 text-amber-900 dark:text-amber-300 px-4 py-2.5 text-xs sm:text-sm font-bold transition"
+          >
+            <Clock className="w-4 h-4" />
+            <span>Mock Exam</span>
+          </Link>
+        </div>
       </div>
 
       {/* Real Metrics Grid */}

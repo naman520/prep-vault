@@ -10,6 +10,7 @@ import {
   Settings,
   Sparkles,
   Search,
+  Flame,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -20,6 +21,7 @@ interface SidebarProps {
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onCloseMobile }) => {
   const navItems = [
     { to: '/', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/daily-challenge', label: 'Daily 60 Challenge', icon: Flame },
     { to: '/categories', label: 'Browse Topics', icon: Layers },
     { to: '/practice', label: 'Practice Mode', icon: GraduationCap },
     { to: '/mock-test', label: 'Mock Test Engine', icon: Sparkles },

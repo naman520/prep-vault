@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Database,
   Upload,
@@ -9,12 +10,15 @@ import {
   AlertCircle,
   CheckCircle2,
   FileJson,
+  Sparkles,
+  ExternalLink,
 } from 'lucide-react';
 import { db } from '../db/db';
 import { validateQuestionPack } from '../utils/testEngine';
 import type { QuestionPackMetadata, QuestionPackFile } from '../types';
 
 export const QuestionBankPage: React.FC = () => {
+  const navigate = useNavigate();
   const [packs, setPacks] = useState<QuestionPackMetadata[]>([]);
   const [storageInfo, setStorageInfo] = useState<{ usedMb: number; quotaMb: number } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -287,6 +291,12 @@ export const QuestionBankPage: React.FC = () => {
                         Default Bundled
                       </span>
                     )}
+                    {pack.id.startsWith('daily-pack-') && (
+                      <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 flex items-center gap-1">
+                        <Sparkles className="w-3 h-3 text-amber-500" />
+                        Daily 60 Pack (Offline)
+                      </span>
+                    )}
                   </div>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xl">
                     {pack.description}
@@ -298,6 +308,20 @@ export const QuestionBankPage: React.FC = () => {
               </div>
 
               <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                {pack.id.startsWith('daily-pack-') && (
+                  <button
+                    onClick={() => {
+                      const date = pack.id.replace('daily-pack-', '');
+                      navigate(`/daily-challenge?date=${date}`);
+                    }}
+                    className="flex items-center gap-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white px-3 py-1.5 text-xs font-bold transition shadow-xs"
+                    title="Practice this daily pack"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>Practice Pack</span>
+                  </button>
+                )}
+
                 <button
                   onClick={() => handleExportPack(pack.id, pack.name)}
                   className="flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 px-3 py-1.5 text-xs font-semibold transition"
