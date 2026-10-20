@@ -12,13 +12,17 @@ import {
   FileJson,
   Sparkles,
   ExternalLink,
+  ShieldCheck,
+  LogOut,
 } from 'lucide-react';
 import { db } from '../db/db';
+import { useAdminAuth } from '../context/AdminAuthContext';
 import { validateQuestionPack } from '../utils/testEngine';
 import type { QuestionPackMetadata, QuestionPackFile } from '../types';
 
 export const QuestionBankPage: React.FC = () => {
   const navigate = useNavigate();
+  const { logout, adminUser } = useAdminAuth();
   const [packs, setPacks] = useState<QuestionPackMetadata[]>([]);
   const [storageInfo, setStorageInfo] = useState<{ usedMb: number; quotaMb: number } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -185,6 +189,15 @@ export const QuestionBankPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="flex items-center gap-1 text-[11px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300 border border-amber-300 dark:border-amber-700">
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+              <span>Admin Protected Area</span>
+            </span>
+            <span className="text-xs text-slate-400">
+              Logged in as {adminUser?.id || 'admin'}
+            </span>
+          </div>
           <h1 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white flex items-center gap-2.5">
             <Database className="w-6 h-6 text-indigo-500" />
             <span>Question Bank & Storage Manager</span>
@@ -194,7 +207,7 @@ export const QuestionBankPage: React.FC = () => {
           </p>
         </div>
 
-        <div>
+        <div className="flex flex-wrap items-center gap-2">
           <input
             type="file"
             ref={fileInputRef}
@@ -208,6 +221,18 @@ export const QuestionBankPage: React.FC = () => {
           >
             <Upload className="w-4 h-4" />
             <span>Import Question Pack</span>
+          </button>
+
+          <button
+            onClick={() => {
+              logout();
+              navigate('/');
+            }}
+            className="flex items-center gap-1.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 px-3 py-2.5 text-xs font-semibold transition active:scale-95"
+            title="Log out of Administrator Mode"
+          >
+            <LogOut className="w-3.5 h-3.5 text-rose-500" />
+            <span>Exit Admin</span>
           </button>
         </div>
       </div>

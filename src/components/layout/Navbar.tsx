@@ -10,6 +10,7 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import { useAdminAuth } from '../../context/AdminAuthContext';
 import { PWAInstallButton } from '../common/PWAInstallButton';
 import { OfflineBadge } from '../common/OfflineBadge';
 import { KeyboardShortcutsModal } from '../common/KeyboardShortcutsModal';
@@ -24,6 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   isMobileSidebarOpen,
 }) => {
   const { theme, setTheme, isDark, brandName } = useTheme();
+  const { isAdmin } = useAdminAuth();
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -91,6 +93,17 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right: Controls & Badges */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {isAdmin && (
+            <Link
+              to="/question-bank"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300 border border-amber-300 dark:border-amber-700 text-xs font-bold hover:scale-105 transition"
+              title="You are logged in as Administrator"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+              <span>Admin Mode</span>
+            </Link>
+          )}
+
           <OfflineBadge />
 
           <button

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
+import { AdminAuthProvider } from './context/AdminAuthContext';
 import { AppLayout } from './components/layout/AppLayout';
+import { AdminProtectedRoute } from './components/common/AdminProtectedRoute';
 import { initializeDatabase } from './db/db';
 import { getOrCreateDaily60Questions } from './services/dailyQuestionService';
 
@@ -17,6 +19,7 @@ import { SearchPage } from './pages/SearchPage';
 import { QuestionBankPage } from './pages/QuestionBankPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { DailyChallengePage } from './pages/DailyChallengePage';
+import { AdminLoginPage } from './pages/AdminLoginPage';
 
 export default function App() {
   const [dbReady, setDbReady] = useState(false);
@@ -71,25 +74,35 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout />}>
-            <Route path="/" element={<DashboardPage />} />
-            <Route path="/categories" element={<CategoriesPage />} />
-            <Route path="/practice" element={<PracticePage />} />
-            <Route path="/mock-test" element={<MockTestSetupPage />} />
-            <Route path="/mock-test/active" element={<MockTestActivePage />} />
-            <Route path="/mock-test/result/:id" element={<MockTestResultPage />} />
-            <Route path="/history" element={<MockTestHistoryPage />} />
-            <Route path="/bookmarks" element={<BookmarksPage />} />
-            <Route path="/daily-challenge" element={<DailyChallengePage />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/question-bank" element={<QuestionBankPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AdminAuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/practice" element={<PracticePage />} />
+              <Route path="/mock-test" element={<MockTestSetupPage />} />
+              <Route path="/mock-test/active" element={<MockTestActivePage />} />
+              <Route path="/mock-test/result/:id" element={<MockTestResultPage />} />
+              <Route path="/history" element={<MockTestHistoryPage />} />
+              <Route path="/bookmarks" element={<BookmarksPage />} />
+              <Route path="/daily-challenge" element={<DailyChallengePage />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route
+                path="/question-bank"
+                element={
+                  <AdminProtectedRoute>
+                    <QuestionBankPage />
+                  </AdminProtectedRoute>
+                }
+              />
+              <Route path="/admin-login" element={<AdminLoginPage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AdminAuthProvider>
     </ThemeProvider>
   );
 }
